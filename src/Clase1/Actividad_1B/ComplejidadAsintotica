@@ -1,0 +1,4 @@
+Si utilizamos HashMaps para la resolucion del ejercicio tendriamos un costo lineal, f(n) = 3 + 13n. 
+En cambio, si no usamos HashMaps tendriamos un costo cuadratico, f(n) = 3 + 4n + 5n^2.
+
+Por ende podriamos decir que HashMaps es mucho mas eficiente en terminos de eficiencia de memoria.
