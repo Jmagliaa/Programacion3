@@ -18,7 +18,7 @@ public class Actividad_1 {
             }
         }
         return false;                                               // 1
-    }                                                               // f(n) = 2 + 8n + 2nlog(n) tiene un costo lineal
+    }                                                               // f(n) = 5 + 11n + 2nlog(n) tiene un costo lineal
 
     public static void main(String[] args) {
         int[] monedas = {100, 50, 50, 20, 10, 10, 5};
