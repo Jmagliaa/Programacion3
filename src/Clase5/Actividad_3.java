@@ -77,10 +77,13 @@ class Grafo {
 
 /*
 Caso base:
-Las operaciones de inicialización, agregar y eliminar aristas, verificar la existencia de una arista, listar adyacentes, y contar los grados de entrada y salida se basan en el acceso a elementos específicos de la matriz, lo que tiene una complejidad de O(1).
+Las operaciones de inicialización, agregar y eliminar aristas, verificar la existencia de una arista, 
+listar adyacentes, y contar los grados de entrada y salida se basan en el acceso a elementos 
+específicos de la matriz, lo que tiene una complejidad de O(1).
 
 Paso recursivo:
-No hay recursión en este código, ya que todas las operaciones se realizan de manera directa sobre la matriz de adyacencia. La complejidad se mantiene constante O(1) para las operaciones que acceden a elementos específicos.
+No hay recursión en este código, ya que todas las operaciones se realizan de manera directa sobre la 
+matriz de adyacencia. La complejidad se mantiene constante O(1) para las operaciones que acceden a elementos específicos.
 
 Complejidad total:
 - *Inicialización del grafo:* O(n^2), ya que se debe crear una matriz de adyacencia de tamaño n x n.
