@@ -96,20 +96,3 @@ public class Actividad_1 {
         floydWarshall.resolverFloydWarshall();
     }
 }
-
-/*
-Este código resuelve la actividad dada de encontrar las distancias mínimas entre los nodos de un grafo utilizando el algoritmo de Floyd-Warshall:
-1. Se modela cada conexión entre nodos con un peso.
-2. La clase `actividad1` aplica el algoritmo Floyd-Warshall para encontrar la mínima distancia entre cada par de nodos.
-3. Se utiliza una matriz de distancias para calcular el camino más corto entre todos los pares de nodos.
-
-Complejidad:
-La complejidad del algoritmo es O(n^3), donde n es el número de nodos del grafo.
-
-Salida esperada:
-Matriz de distancias mínimas entre todos los pares de nodos:
-0   2   7   5
-INF 0   6   4
-INF INF 0   INF
-INF 6   2   0
-*/
