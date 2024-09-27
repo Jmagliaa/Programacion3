@@ -49,3 +49,7 @@ public class Actividad_1 {
         System.out.println("Valor maximo con Dinamico: " + resultado);
     }
 }
+/* 
+Valor maximo con Fuerza Bruta: 8
+Valor maximo con Dinamico: 8
+*/
