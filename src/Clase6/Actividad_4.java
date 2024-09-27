@@ -1,102 +1,105 @@
-import java.util.*;
-
-class PaqueteInversion {
-    private int costo;
-    private int ganancia;
-
-    public PaqueteInversion(int costo, int ganancia) {
-        this.costo = costo;
-        this.ganancia = ganancia;
-    }
-
-    public int getCosto() {
-        return costo;
-    }
-
-    public int getGanancia() {
-        return ganancia;
-    }
-
-    @Override
-    public String toString() {
-        return "Costo: " + costo + ", Ganancia: " + ganancia;
-    }
-}
+import java.util.Arrays;
+import java.util.Comparator;
 
 public class Actividad_4 {
-    private List<PaqueteInversion> paquetes;
-    private int presupuestoMaximo;
 
-    // Constructor
-    public Actividad_4(int presupuestoMaximo) {
-        this.presupuestoMaximo = presupuestoMaximo;
-        this.paquetes = new ArrayList<>();
+    static class paquete {
+        int costo;
+        int ganancia;
+        double promedio;
+
+        public paquete(int peso, int valor) {
+            this.costo = peso;
+            this.ganancia = valor;
+            this.promedio = (double) valor/peso;
+        }
     }
 
-    // Agregar paquete a la lista
-    public void agregarPaquete(int costo, int ganancia) {
-        PaqueteInversion nuevoPaquete = new PaqueteInversion(costo, ganancia);
-        paquetes.add(nuevoPaquete);
+    static int maxValor = 0;
+
+    public static int resolverFuerzaBruta(int[] pesos, int[] valores, int indice, int capacidad, int valorActual) {
+
+        if (indice == 0 || capacidad == 0) {
+            if (valorActual > maxValor) {
+                maxValor = valorActual;
+            }
+            return maxValor;
+        }
+
+        if (pesos[indice - 1] <= capacidad) {
+            resolverFuerzaBruta(pesos, valores, indice - 1, capacidad - pesos[indice - 1], valorActual + valores[indice - 1]);
+        }
+        resolverFuerzaBruta(pesos, valores, indice - 1, capacidad, valorActual);
+
+        return maxValor;
     }
 
-    // Resolver el problema de selección de paquetes de inversión con programación dinámica
-    public void resolverPaquetes() {
-        int n = paquetes.size();
-        int[][] dp = new int[n + 1][presupuestoMaximo + 1];
+    public static int resolverDinamico(int[] pesos, int[] valores, int capacidad) {
+        int indice = valores.length;
+        int[][] dp = new int[indice + 1][capacidad + 1];
 
-        // Llenar la tabla de programación dinámica
-        for (int i = 1; i <= n; i++) {
-            for (int p = 0; p <= presupuestoMaximo; p++) {
-                PaqueteInversion paqueteActual = paquetes.get(i - 1);
-                if (paqueteActual.getCosto() <= p) {
-                    dp[i][p] = Math.max(dp[i - 1][p], dp[i - 1][p - paqueteActual.getCosto()] + paqueteActual.getGanancia());
+        for (int i = 1; i <= indice; i++) {
+            for (int j = 0; j <= capacidad; j++) {
+                if (pesos[i - 1] <= j) {
+                    dp[i][j] = Math.max(dp[i - 1][j], dp[i - 1][j - pesos[i - 1]] + valores[i - 1]);
                 } else {
-                    dp[i][p] = dp[i - 1][p];
+                    dp[i][j] = dp[i - 1][j];
                 }
             }
         }
 
-        // Imprimir la ganancia máxima que se puede obtener
-        System.out.println("La ganancia máxima que se puede obtener es: " + dp[n][presupuestoMaximo]);
-
-        // Mostrar los paquetes seleccionados
-        mostrarPaquetesSeleccionados(dp, n, presupuestoMaximo);
+        return dp[indice][capacidad];
     }
 
-    // Mostrar los paquetes seleccionados en la solución óptima
-    private void mostrarPaquetesSeleccionados(int[][] dp, int n, int presupuestoMaximo) {
-        System.out.println("Paquetes seleccionados:");
-        int p = presupuestoMaximo;
-        for (int i = n; i > 0; i--) {
-            if (dp[i][p] != dp[i - 1][p]) {
-                PaqueteInversion paqueteSeleccionado = paquetes.get(i - 1);
-                System.out.println(paqueteSeleccionado);
-                p -= paqueteSeleccionado.getCosto();
+    public static int resolverGreedy(paquete[] paquetes, int capacidad){
+        Arrays.sort(paquetes, Comparator.comparingDouble(j -> -j.promedio));
+
+        int gananciaTotal = 0;
+        int costoTotal = 0;
+
+        for (paquete objeto : paquetes) {
+            if (costoTotal + objeto.costo <= capacidad) {
+                costoTotal += objeto.costo;
+                gananciaTotal += objeto.ganancia;
             }
         }
+
+        return gananciaTotal;
     }
 
     public static void main(String[] args) {
-        // Presupuesto máximo para la Actividad 4
-        Actividad_4 seleccionPaquetes = new Actividad_4(35);
 
-        // Agregar paquetes de inversión con costo y ganancia
-        seleccionPaquetes.agregarPaquete(12, 150); // Paquete 1
-        seleccionPaquetes.agregarPaquete(20, 200); // Paquete 2
-        seleccionPaquetes.agregarPaquete(15, 100); // Paquete 3
-        seleccionPaquetes.agregarPaquete(25, 300); // Paquete 4
+        int[] costo = {12, 20, 15, 25};
+        int[] ganancias = {150 , 200, 100, 300};
+        int presupuesto = 35;
 
-        // Resolver el problema de selección de paquetes de inversión
-        seleccionPaquetes.resolverPaquetes();
+        paquete[] paquetes = {
+                new paquete(12, 150),
+                new paquete(20, 200),
+                new paquete(15,100),
+                new paquete(25,300)
+        };
+
+        int resultado = resolverFuerzaBruta(costo, ganancias, costo.length, presupuesto, 0);
+        System.out.println("Valor maximo con Fuerza Bruta: " + resultado);
+
+        resultado = resolverDinamico(costo,ganancias, presupuesto);
+        System.out.println("Valor maximo con Dinamico: " + resultado);
+
+        resultado = resolverGreedy(paquetes, presupuesto);
+        System.out.println("Valor maximo con Greedy: " + resultado);
     }
 }
 
 /*
-Este código sigue la estructura de los ejemplos anteriores y aplica programación dinámica para seleccionar los paquetes de inversión:
-1. Se modela cada paquete con un costo y una ganancia mediante la clase PaqueteInversion.
-2. La clase actividad4 se encarga de gestionar la lista de paquetes y resolver el problema de optimización para seleccionar los paquetes que maximizan las ganancias sin exceder el presupuesto.
-3. La tabla de programación dinámica (array dp) se utiliza para calcular la ganancia máxima posible y se imprime la combinación óptima de paquetes seleccionados.
+Valor maximo con Fuerza Bruta: 350
+Valor maximo con Dinamico: 350
+Valor maximo con Greedy: 350
 
-Complejidad:
-La complejidad del algoritmo es O(n * presupuesto), donde n es el número de paquetes y presupuesto es el presupuesto máximo disponible.
-*/
+Complejidades:
+Fuerza Bruta: O(2^n)
+Dinámica: O(n.W) donde n es el número de paquetes de inversión y W el
+presupuesto.
+Greedy: O(n log n)
+ */
+
