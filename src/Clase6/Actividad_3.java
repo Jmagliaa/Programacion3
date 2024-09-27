@@ -1,102 +1,103 @@
-import java.util.*;
-
-class Proyecto {
-    private int costo;
-    private int beneficio;
-
-    public Proyecto(int costo, int beneficio) {
-        this.costo = costo;
-        this.beneficio = beneficio;
-    }
-
-    public int getCosto() {
-        return costo;
-    }
-
-    public int getBeneficio() {
-        return beneficio;
-    }
-
-    @Override
-    public String toString() {
-        return "Costo: " + costo + ", Beneficio: " + beneficio;
-    }
-}
+import java.util.Arrays;
+import java.util.Comparator;
 
 public class Actividad_3 {
-    private List<Proyecto> proyectos;
-    private int presupuestoMaximo;
 
-    // Constructor
-    public Actividad_3(int presupuestoMaximo) {
-        this.presupuestoMaximo = presupuestoMaximo;
-        this.proyectos = new ArrayList<>();
+    static class Proyecto {
+        int costo;
+        int beneficio;
+        double promedio;
+
+        public Proyecto(int peso, int valor) {
+            this.costo = peso;
+            this.beneficio = valor;
+            this.promedio = (double) valor/peso;
+        }
     }
 
-    // Agregar proyecto a la lista
-    public void agregarProyecto(int costo, int beneficio) {
-        Proyecto nuevoProyecto = new Proyecto(costo, beneficio);
-        proyectos.add(nuevoProyecto);
+    static int maxValor = 0;
+
+    public static int resolverFuerzaBruta(int[] pesos, int[] valores, int indice, int capacidad, int valorActual) {
+
+        if (indice == 0 || capacidad == 0) {
+            if (valorActual > maxValor) {
+                maxValor = valorActual;
+            }
+            return maxValor;
+        }
+
+        if (pesos[indice - 1] <= capacidad) {
+            resolverFuerzaBruta(pesos, valores, indice - 1, capacidad - pesos[indice - 1], valorActual + valores[indice - 1]);
+        }
+        resolverFuerzaBruta(pesos, valores, indice - 1, capacidad, valorActual);
+
+        return maxValor;
     }
 
-    // Resolver el problema de selección de proyectos con programación dinámica
-    public void resolverProyectos() {
-        int n = proyectos.size();
-        int[][] dp = new int[n + 1][presupuestoMaximo + 1];
+    public static int resolverDinamico(int[] pesos, int[] valores, int capacidad) {
+        int indice = valores.length;
+        int[][] dp = new int[indice + 1][capacidad + 1];
 
-        // Llenar la tabla de programación dinámica
-        for (int i = 1; i <= n; i++) {
-            for (int p = 0; p <= presupuestoMaximo; p++) {
-                Proyecto proyectoActual = proyectos.get(i - 1);
-                if (proyectoActual.getCosto() <= p) {
-                    dp[i][p] = Math.max(dp[i - 1][p], dp[i - 1][p - proyectoActual.getCosto()] + proyectoActual.getBeneficio());
+        for (int i = 1; i <= indice; i++) {
+            for (int j = 0; j <= capacidad; j++) {
+                if (pesos[i - 1] <= j) {
+                    dp[i][j] = Math.max(dp[i - 1][j], dp[i - 1][j - pesos[i - 1]] + valores[i - 1]);
                 } else {
-                    dp[i][p] = dp[i - 1][p];
+                    dp[i][j] = dp[i - 1][j];
                 }
             }
         }
 
-        // Imprimir el beneficio máximo que se puede obtener
-        System.out.println("El beneficio máximo que se puede obtener es: " + dp[n][presupuestoMaximo]);
-
-        // Mostrar los proyectos seleccionados
-        mostrarProyectosSeleccionados(dp, n, presupuestoMaximo);
+        return dp[indice][capacidad];
     }
 
-    // Mostrar los proyectos seleccionados en la solución óptima
-    private void mostrarProyectosSeleccionados(int[][] dp, int n, int presupuestoMaximo) {
-        System.out.println("Proyectos seleccionados:");
-        int p = presupuestoMaximo;
-        for (int i = n; i > 0; i--) {
-            if (dp[i][p] != dp[i - 1][p]) {
-                Proyecto proyectoSeleccionado = proyectos.get(i - 1);
-                System.out.println(proyectoSeleccionado);
-                p -= proyectoSeleccionado.getCosto();
+    public static int resolverGreedy(Proyecto[] objs, int capacidad){
+        Arrays.sort(objs, Comparator.comparingDouble(j -> -j.promedio));
+
+        int beneficioTotal = 0;
+        int costoTotal = 0;
+
+        for (Proyecto objeto : objs) {
+            if (costoTotal + objeto.costo <= capacidad) {
+                costoTotal += objeto.costo;
+                beneficioTotal += objeto.beneficio;
             }
         }
+
+        return beneficioTotal;
     }
 
     public static void main(String[] args) {
-        // Presupuesto máximo para la Actividad 3
-        Actividad_3 seleccionProyectos = new Actividad_3(40);
 
-        // Agregar proyectos con costo y beneficio
-        seleccionProyectos.agregarProyecto(10, 100); // Proyecto 1
-        seleccionProyectos.agregarProyecto(15, 200); // Proyecto 2
-        seleccionProyectos.agregarProyecto(20, 150); // Proyecto 3
-        seleccionProyectos.agregarProyecto(25, 300); // Proyecto 4
+        int[] costo = {10, 15, 20, 25};
+        int[] beneficio = {100 , 200, 150, 300};
+        int presupuesto = 40;
 
-        // Resolver el problema de selección de proyectos
-        seleccionProyectos.resolverProyectos();
+        Proyecto[] proyectos = {
+                new Proyecto(12, 150),
+                new Proyecto(20, 200),
+                new Proyecto(15,100),
+                new Proyecto(25,300)
+        };
+
+        int resultado = resolverFuerzaBruta(costo, beneficio, costo.length, presupuesto, 0);
+        System.out.println("Valor maximo con Fuerza Bruta: " + resultado);
+
+        resultado = resolverDinamico(costo,beneficio, presupuesto);
+        System.out.println("Valor maximo con Dinamico: " + resultado);
+
+        resultado = resolverGreedy(proyectos, presupuesto);
+        System.out.println("Valor maximo con Greedy: " + resultado);
     }
 }
-
 /*
-Este código sigue la estructura de los ejemplos anteriores y aplica programación dinámica para seleccionar proyectos.
-1. Se modela cada proyecto con un costo y un beneficio mediante la clase Proyecto.
-2. La clase actividad3 se encarga de gestionar la lista de proyectos y resolver el problema de optimización para seleccionar los proyectos que maximizan el beneficio sin exceder el presupuesto.
-3. La tabla de programación dinámica (array dp) se utiliza para calcular el beneficio máximo posible y se imprime la combinación óptima de proyectos seleccionados.
+Valor maximo con Fuerza Bruta: 500
+Valor maximo con Dinamico: 500
+Valor maximo con Greedy: 450
 
-Complejidad:
-La complejidad del algoritmo es O(n * presupuesto), donde n es el número de proyectos y presupuesto es el presupuesto máximo disponible.
+Complejidades:
+Fuerza Bruta: O(2^n)
+Dinámica: O(n.W) donde n es el número de proyectos y W el presupuesto.
+Greedy: O(n log n)
 */
+
