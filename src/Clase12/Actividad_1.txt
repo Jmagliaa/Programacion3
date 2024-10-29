@@ -1,0 +1,41 @@
+Consigna:  
+Escenario conceptual: Imagina que estás diseñando un sistema de detección de 
+ciberataques para proteger una plataforma web. Este sistema debe identificar 
+posibles acciones maliciosas que un atacante pueda intentar realizar sobre la 
+plataforma.  
+
+1. Indicar algunos ejemplos de Acciones posibles del atacante. 
+Las acciones más comunes a la hora de atacar un web pueden incluir: 
+ Inyecciones de SQL para obtener acceso a la base de datos. 
+ Ataques de DoS para sobrecargar el servidor y tirar la web. 
+ Ataques de XSS para inyectar scripts maliciosos.  
+ Robos de sesiones de usuarios a través de las cookies. 
+
+2. Indicar las Funciones del sistema de detección. A su vez, el sistema de 
+detección de ataques debe reaccionar para intentar evitar o mitigar estas 
+acciones. ¿Qué técnicas o herramientas puede usar el sistema para detectar 
+estos ataques? 
+Algunas medidas de que se pueden llevar a cabo para detectar y/o neutralizar 
+dichos ataques pueden ser: 
+ Supervisión en tiempo real del tráfico e interacciones en la red. 
+ Identificación temprana de actividad inusual/sospechosa. 
+ Implementación de respuestas automáticas ante direcciones IP 
+sospechosas. 
+ Detección de patrones sospechosos en los registros del servidor.\ 
+El sistema podría utilizar herramientas como FireWalls o IDS para evitar y 
+detectar ataques que puedan sufrir a través el monitoreo y análisis del tráfico 
+de la red. Adicionalmente también se podría recurrir a herramientas de 
+escaneo de vulnerabilidades que puedan prever debilidades explotables para 
+los atacantes. 
+
+3. Explicar cómo se aplicaría la poda alfa-beta  
+La aplicación de la poda alfa-beta es fundamental para mantener un buen 
+nivel de seguridad y rendimiento en el sistema, debido a que esta 
+optimización nos ahorra muchas búsquedas de nodos sin sentido. 
+Las aplicaciones reales que tendría la poda alfa-beta podrían ser la 
+evaluación de riesgos, que le permitiría diferenciar que tan peligroso es un 
+ataque, y en base a eso podría tomar las decisiones más efectivas para 
+mitigar ataques más críticos. 
+
+4. Construir un árbol de decisión simplificado. 
+*Imagen presentada en el pdf de la clase 12*
