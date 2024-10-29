@@ -1,0 +1,21 @@
+Copiar el código de muestra que está en el repo de la materia y observar en Python tutor.
+
+¿Cómo funciona el back tracking en este problema?
+El código intentara colocar una reina en cada columna, desde la primera hasta la última. En caso de encontrar un espacio disponible, se colocará la reina, y de lo contrario avanzará una fila hasta encontrar un espacio disponible.
+Si en una columna no se encuentra ninguna fila disponible, entonces el programa retrocederá hasta la columna anterior y reubicará a la reina de dicha columna en el siguiente espacio disponible. El proceso se repetirá hasta que el programa haya colocado todas las reinas o ya no sea posible reubicar ninguna de ellas.
+
+¿Qué pasa cuando el algoritmo encuentra una solución? ¿Qué ocurre cuando no puede colocar más reinas?
+Cuando el algoritmo encuentra una solución, retorna True e imprime por pantalla el resultado obtenido. Posteriormente reubica la última reina clocada y procede a seguir buscando soluciones hasta revisar todas las posibles combinaciones posibles.
+En caso de que no se puedan colocar más reinas, retrocederá hasta la columna anterior para reubicar la reina en la siguiente posible ubicación. En caso que ninguna reina pueda ser reubicada, el algoritmo terminara.
+
+¿Qué sucede en el código cuando el algoritmo "retrocede"? ¿Cómo se visualiza en Python Tutor?
+Cuando el código retrocede, elimina la posición de la última reina asignada.
+En Python Tutor, este retroceso se visualiza como una devolución en la pila de llamadas recursivas, ya que elimina la última posición de la reina y probando la siguiente posición.
+
+¿Qué modificaciones harías para aumentar N a 8? ¿Cómo crees que cambiaría el tiempo de ejecución?
+Para aumentar N simplemente habría que actualizar el valor de N a 8 en el main.
+Al aumentar N a 8, el tiempo de ejecución crecería considerablemente debido a que aumentaría la cantidad de posiciones que el programa deberá verificar para encontrar una solución, esto debido a que el algoritmo posee una complejidad temporal factorial que aumenta exponencialmente dependiendo al valor de N.
+
+¿Por qué el método isSafe es crucial en este algoritmo? 
+Este método es de crucial importancia debido a que le permite saber al algoritmo si la posición indicada es apta o no para colocar una reina. 
+Si este método no se implementara, el algoritmo realizaría una gran cantidad de combinaciones invalidas que provocaría una pérdida importante en la eficiencia del programa, 
