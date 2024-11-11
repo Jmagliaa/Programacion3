@@ -1,0 +1,20 @@
+1. Explicación del Problema del Viajante
+El problema del viajante es un problema clásico de optimización que consiste en que un viajante necesita visitar un conjunto de ciudades, pasando una sola vez por cada una 
+de ellas y regresando a su punto de partida. El objetivo es encontrar la ruta de menor costo o distancia total. Este problema es 
+NP-hard, lo que significa que no existe una solución eficiente para resolverlo en tiempo polinómico conforme el número de ciudades crece.
+
+
+2. Cálculo de las Combinaciones para 15 Ciudades
+Para calcular las combinaciones posibles de rutas para 15 ciudades, pensamos en el hecho de que, si hay n ciudades, las posibles rutas son: (n−1)!/2
+Donde el divisor "2" está porque una ruta y su reversa son equivalentes (siempre volvemos al punto de partida). Así, para 15 ciudades: (15−1)!/2=14!/2
+Esto equivale a: 14!/2=43,589,145,600
+Entonces, el número de combinaciones posibles para 15 ciudades es 43,589,145,600.
+
+
+3. Dado que encontrar la ruta óptima para muchas ciudades es complejo, se emplean métodos heurísticos:
+
+ * Algoritmos Greedy (Voraces): Eligen en cada paso la ciudad más cercana disponible, sin asegurar la ruta óptima.
+ * Búsqueda Local (2-opt, 3-opt): Mejoran una ruta inicial intercambiando posiciones de ciudades para reducir la distancia total.
+ * Algoritmos Genéticos: Simulan evolución cruzando y mutando rutas para encontrar soluciones cercanas a la óptima.
+ * Recocido Simulado: Permite ocasionalmente rutas menos óptimas para evitar quedarse atrapado en soluciones locales.
+ * Colonia de Hormigas: Imita cómo las hormigas encuentran caminos cortos usando "feromonas" que marcan rutas más eficaces.
